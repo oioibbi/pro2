@@ -375,21 +375,23 @@ async function animateNodeFlip(node, card, soundIndex = 1) {
   node.classList.remove("placeholder", "entering", "is-visible");
   node.classList.add("flip-animating");
   node.style.transformOrigin = "center center";
-  node.style.transition = "transform 170ms cubic-bezier(0.55, 0.06, 0.68, 0.19), filter 170ms ease";
+  const closeMs = motionMs(170, 90);
+  const openMs = motionMs(220, 120);
+  node.style.transition = `transform ${closeMs}ms cubic-bezier(0.55, 0.06, 0.68, 0.19), filter ${closeMs}ms ease`;
   playSound("flip", soundIndex);
   await sleep(20);
   node.style.transform = "scaleX(0.04)";
   node.style.filter = "brightness(0.92)";
-  await sleep(180);
+  await sleep(closeMs + 10);
   settleLiveFlipNode(node, card);
   node.classList.add("flip-animating", "flip-face-phase");
   node.style.transform = "scaleX(0.04)";
   node.style.filter = "brightness(1.04)";
   void node.offsetWidth;
-  node.style.transition = "transform 220ms cubic-bezier(0.22, 1, 0.36, 1), filter 220ms ease";
+  node.style.transition = `transform ${openMs}ms cubic-bezier(0.22, 1, 0.36, 1), filter ${openMs}ms ease`;
   node.style.transform = "scaleX(1)";
   node.style.filter = "brightness(1)";
-  await sleep(230);
+  await sleep(openMs + 10);
   node.classList.remove("flip-animating", "flip-face-phase");
   node.style.removeProperty("transition");
   node.style.removeProperty("transform");
@@ -1094,6 +1096,9 @@ function clearDisplayedHoleCards() {
 }
 
 function createFlyingCard(startRect, endRect) {
+  if (isMobilePerformanceMode()) {
+    return sleep(24);
+  }
   const stageRect = els.tableStage.getBoundingClientRect();
   const card = document.createElement("div");
   card.className = "deal-card";
@@ -1139,7 +1144,7 @@ async function animateBoardCards(cards, startIndex) {
     const cardNode = els.communityCards.children[slotIndex];
     await animateNodeFlip(cardNode, cards[index], index + 1);
     if (index < cards.length - 1) {
-      await sleep(90);
+      await sleep(motionMs(90, 40));
     }
   }
 
@@ -1154,6 +1159,11 @@ function chipTier(amount) {
 }
 
 async function animateChipMove(fromRect, toRect, amount = 20) {
+  if (isMobilePerformanceMode()) {
+    playSound("chip", chipTier(amount).count);
+    await sleep(40);
+    return;
+  }
   const tier = chipTier(amount);
   const chips = [];
   for (let index = 0; index < tier.count; index += 1) {
@@ -1215,7 +1225,7 @@ async function animatePlayerHandReveal() {
     const cardNode = findHoleCardNode(player.seatIndex, index);
     await animateNodeFlip(cardNode, player.cards[index], index + 1);
     if (index === 0) {
-      await sleep(110);
+      await sleep(motionMs(110, 45));
     }
   }
   player.revealCards = true;
@@ -1228,7 +1238,7 @@ async function playHandIntro() {
   els.tableStage.classList.add("is-shuffling");
   clearDisplayedHoleCards();
   updateUI();
-  await sleep(760);
+  await sleep(motionMs(760, 140));
   els.tableStage.classList.remove("is-shuffling");
   els.tableStage.classList.add("is-dealing");
 
@@ -1245,7 +1255,7 @@ async function playHandIntro() {
       seatEl.classList.remove("is-deal-target");
       state.visibleHoleCounts[seatIndex] += 1;
       updateUI();
-      await sleep(55);
+      await sleep(motionMs(55, 12));
     }
   }
 
@@ -1380,6 +1390,14 @@ function isMobileScreen() {
 
 function isLandscapeViewport() {
   return window.innerWidth > window.innerHeight;
+}
+
+function isMobilePerformanceMode() {
+  return isMobileScreen();
+}
+
+function motionMs(desktopMs, mobileMs) {
+  return isMobilePerformanceMode() ? mobileMs : desktopMs;
 }
 
 function shouldUseMobileLandscapeMode() {

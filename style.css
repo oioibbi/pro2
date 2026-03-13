@@ -908,7 +908,8 @@ button:disabled {
 
 @media (max-width: 1080px) {
   body.mobile-landscape-mode {
-    --mobile-side-dock: 138px;
+    --mobile-side-dock: 124px;
+    --mobile-landscape-stage-scale: 0.76;
     overflow: hidden;
   }
 
@@ -945,7 +946,7 @@ button:disabled {
   body.mobile-landscape-mode .table-stage-wrap {
     --table-base-width: 1240px;
     --table-base-height: 840px;
-    --table-scale: var(--mobile-landscape-scale, 0.68);
+    --table-scale: var(--mobile-landscape-scale, var(--mobile-landscape-stage-scale));
     position: fixed;
     top: 8px;
     left: 0;
@@ -961,8 +962,8 @@ button:disabled {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: var(--table-base-width);
-    min-height: var(--table-base-height);
+    width: 1320px;
+    min-height: 820px;
     margin: 0;
     transform: translate(-50%, -50%) scale(var(--table-scale)) translateZ(0);
     transform-origin: center center;
@@ -987,25 +988,150 @@ button:disabled {
     display: none;
   }
 
+  body.mobile-landscape-mode .seat {
+    width: 190px;
+    min-height: 116px;
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  body.mobile-landscape-mode .seat-player {
+    width: 268px;
+    min-height: 132px;
+  }
+
+  body.mobile-landscape-mode .seat-head {
+    gap: 2px;
+    margin-bottom: 6px;
+  }
+
+  body.mobile-landscape-mode .seat h2 {
+    font-size: 1rem;
+  }
+
+  body.mobile-landscape-mode .seat p {
+    font-size: 0.72rem;
+  }
+
+  body.mobile-landscape-mode .seat-status {
+    min-height: 18px;
+    margin-top: 5px;
+    padding: 4px 8px;
+    font-size: 0.68rem;
+  }
+
+  body.mobile-landscape-mode .seat-tag {
+    padding: 3px 7px;
+    font-size: 0.62rem;
+  }
+
+  body.mobile-landscape-mode .seat-0 {
+    top: 18px;
+    left: calc(50% - 95px);
+  }
+
+  body.mobile-landscape-mode .seat-1 {
+    top: 100px;
+    right: 14px;
+  }
+
+  body.mobile-landscape-mode .seat-2 {
+    bottom: 188px;
+    right: 26px;
+  }
+
+  body.mobile-landscape-mode .seat-3 {
+    bottom: 188px;
+    left: 26px;
+  }
+
+  body.mobile-landscape-mode .seat-4 {
+    top: 100px;
+    left: 14px;
+  }
+
+  body.mobile-landscape-mode .seat-5 {
+    bottom: 18px;
+    left: calc(50% - 134px);
+  }
+
+  body.mobile-landscape-mode .board-area {
+    inset: 205px 170px 190px;
+    gap: 12px;
+  }
+
+  body.mobile-landscape-mode .board-pills {
+    gap: 6px;
+  }
+
+  body.mobile-landscape-mode .board-cards {
+    min-height: 132px;
+    gap: 8px;
+  }
+
+  body.mobile-landscape-mode .player-cards {
+    min-height: 128px;
+  }
+
+  body.mobile-landscape-mode .mini-cards {
+    min-height: 78px;
+  }
+
+  body.mobile-landscape-mode .card {
+    width: 86px;
+    height: 122px;
+    padding: 9px;
+  }
+
+  body.mobile-landscape-mode .mini-cards .card {
+    width: 54px;
+    height: 78px;
+    padding: 6px;
+  }
+
+  body.mobile-landscape-mode .card-rank {
+    font-size: 1.34rem;
+  }
+
+  body.mobile-landscape-mode .card-center {
+    font-size: 1.95rem;
+  }
+
+  body.mobile-landscape-mode .card-suit {
+    font-size: 1.02rem;
+  }
+
+  body.mobile-landscape-mode .mini-cards .card-rank {
+    font-size: 1.02rem;
+  }
+
+  body.mobile-landscape-mode .mini-cards .card-center {
+    font-size: 1.22rem;
+  }
+
+  body.mobile-landscape-mode .mini-cards .card-suit {
+    font-size: 0.82rem;
+  }
+
   body.mobile-landscape-mode .action-panel {
     min-width: 0;
     display: grid;
-    gap: 5px;
-    padding: 7px;
-    border-radius: 16px;
-    background: rgba(4, 16, 12, 0.56);
+    gap: 4px;
+    padding: 6px;
+    border-radius: 14px;
+    background: rgba(4, 16, 12, 0.44);
     border: 1px solid rgba(240, 206, 129, 0.14);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
-    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.14);
+    backdrop-filter: blur(6px);
   }
 
   body.mobile-landscape-mode .betting-info,
   body.mobile-landscape-mode .actions {
-    gap: 5px;
+    gap: 4px;
   }
 
   body.mobile-landscape-mode .raise-box {
-    gap: 4px;
+    gap: 3px;
   }
 
   body.mobile-landscape-mode .log-panel {
@@ -1022,8 +1148,8 @@ button:disabled {
   }
 
   body.mobile-landscape-mode button {
-    padding: 6px 8px;
-    font-size: 0.74rem;
+    padding: 5px 8px;
+    font-size: 0.72rem;
   }
 
   body.mobile-landscape-mode #message {
