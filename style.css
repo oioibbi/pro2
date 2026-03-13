@@ -912,10 +912,9 @@ button:disabled {
     height: var(--viewport-height, 100vh);
     min-height: var(--viewport-height, 100vh);
     margin: 0;
-    padding: 8px;
-    gap: 6px;
-    display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
+    padding: 0;
+    gap: 0;
+    display: block;
     overflow: hidden;
   }
 
@@ -926,10 +925,13 @@ button:disabled {
   }
 
   body.mobile-landscape-mode .mobile-view-tools {
-    position: relative;
-    z-index: 5;
+    position: fixed;
+    top: max(8px, env(safe-area-inset-top));
+    left: 8px;
+    right: 8px;
+    z-index: 30;
     justify-content: space-between;
-    padding: 2px 0;
+    padding: 0;
   }
 
   body.mobile-landscape-mode .mobile-view-tools::before {
@@ -944,23 +946,26 @@ button:disabled {
   body.mobile-landscape-mode .table-stage-wrap {
     --table-base-width: 1240px;
     --table-base-height: 840px;
-    --table-scale: var(--mobile-landscape-scale, 0.78);
-    min-height: 0;
-    height: 100%;
-    max-height: none;
+    --table-scale: var(--mobile-landscape-scale, 0.68);
+    position: fixed;
+    top: calc(max(8px, env(safe-area-inset-top)) + 56px);
+    left: 8px;
+    right: 8px;
+    bottom: calc(max(8px, env(safe-area-inset-bottom)) + 132px);
+    min-height: 220px;
     margin: 0;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    display: block;
     overflow: hidden;
-    padding-bottom: 126px;
   }
 
   body.mobile-landscape-mode .table-stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     width: var(--table-base-width);
     min-height: var(--table-base-height);
     margin: 0;
-    transform: scale(var(--table-scale)) translateZ(0);
+    transform: translate(-50%, -50%) scale(var(--table-scale)) translateZ(0);
     transform-origin: center center;
   }
 
@@ -977,7 +982,7 @@ button:disabled {
     border-radius: 18px;
     align-items: start;
     overflow: auto;
-    max-height: min(34vh, 190px);
+    max-height: 124px;
     backdrop-filter: blur(10px);
     background: rgba(4, 16, 12, 0.86);
   }
@@ -1003,6 +1008,10 @@ button:disabled {
     gap: 8px;
   }
 
+  body.mobile-landscape-mode .log-panel {
+    display: none;
+  }
+
   body.mobile-landscape-mode .table-metrics span,
   body.mobile-landscape-mode .betting-info span,
   body.mobile-landscape-mode .option-field,
@@ -1013,8 +1022,8 @@ button:disabled {
   }
 
   body.mobile-landscape-mode button {
-    padding: 9px 12px;
-    font-size: 0.9rem;
+    padding: 8px 12px;
+    font-size: 0.88rem;
   }
 
   body.mobile-landscape-mode #message {
@@ -1023,7 +1032,7 @@ button:disabled {
   }
 
   body.mobile-landscape-mode .raise-box {
-    gap: 6px;
+    gap: 4px;
   }
 
   body.mobile-landscape-mode .actions {
