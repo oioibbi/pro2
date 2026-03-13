@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>六人桌德州扑克</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="style.css?v=20260313b">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="topbar">
+      <div>
+        <p class="eyebrow">Six-Max Hold'em</p>
+        <h1>在线德州扑克</h1>
+      </div>
+      <div class="topbar-actions">
+        <div class="table-metrics">
+          <span>盲注 <strong id="blind-info">10 / 20</strong></span>
+          <span>存活 <strong id="alive-count">6</strong></span>
+          <span>手数 <strong id="hand-count">0</strong></span>
+        </div>
+        <button id="new-hand-btn" class="secondary-btn">开始下一手</button>
+      </div>
+    </section>
+
+    <section class="table-stage">
+      <div class="table-glow"></div>
+      <div class="table-anim-layer" id="table-anim-layer" aria-hidden="true">
+        <div class="deck-stack" id="deck-stack">
+          <span class="deck-card deck-card-a"></span>
+          <span class="deck-card deck-card-b"></span>
+          <span class="deck-card deck-card-c"></span>
+        </div>
+      </div>
+      <div class="chip-anim-layer" id="chip-anim-layer" aria-hidden="true"></div>
+
+      <section class="seat-grid">
+        <article class="seat seat-0" data-seat-index="0">
+          <div class="seat-badges"><span class="seat-tag" data-role-tag></span></div>
+          <div class="seat-head">
+            <h2 id="seat-name-0">AI 1</h2>
+            <p id="seat-stack-0">筹码: 0</p>
+          </div>
+          <div class="cards mini-cards" id="seat-cards-0"></div>
+          <p class="seat-status" id="seat-status-0"></p>
+        </article>
+
+        <article class="seat seat-1" data-seat-index="1">
+          <div class="seat-badges"><span class="seat-tag" data-role-tag></span></div>
+          <div class="seat-head">
+            <h2 id="seat-name-1">AI 2</h2>
+            <p id="seat-stack-1">筹码: 0</p>
+          </div>
+          <div class="cards mini-cards" id="seat-cards-1"></div>
+          <p class="seat-status" id="seat-status-1"></p>
+        </article>
+
+        <article class="seat seat-2" data-seat-index="2">
+          <div class="seat-badges"><span class="seat-tag" data-role-tag></span></div>
+          <div class="seat-head">
+            <h2 id="seat-name-2">AI 3</h2>
+            <p id="seat-stack-2">筹码: 0</p>
+          </div>
+          <div class="cards mini-cards" id="seat-cards-2"></div>
+          <p class="seat-status" id="seat-status-2"></p>
+        </article>
+
+        <article class="seat seat-3" data-seat-index="3">
+          <div class="seat-badges"><span class="seat-tag" data-role-tag></span></div>
+          <div class="seat-head">
+            <h2 id="seat-name-3">AI 4</h2>
+            <p id="seat-stack-3">筹码: 0</p>
+          </div>
+          <div class="cards mini-cards" id="seat-cards-3"></div>
+          <p class="seat-status" id="seat-status-3"></p>
+        </article>
+
+        <article class="seat seat-4" data-seat-index="4">
+          <div class="seat-badges"><span class="seat-tag" data-role-tag></span></div>
+          <div class="seat-head">
+            <h2 id="seat-name-4">AI 5</h2>
+            <p id="seat-stack-4">筹码: 0</p>
+          </div>
+          <div class="cards mini-cards" id="seat-cards-4"></div>
+          <p class="seat-status" id="seat-status-4"></p>
+        </article>
+
+        <article class="seat seat-5 seat-player" data-seat-index="5">
+          <div class="seat-badges"><span class="seat-tag" data-role-tag></span></div>
+          <div class="seat-head">
+            <h2 id="seat-name-5">你</h2>
+            <p id="seat-stack-5">筹码: 0</p>
+          </div>
+          <div class="cards player-cards" id="seat-cards-5"></div>
+          <p class="seat-status" id="seat-status-5"></p>
+        </article>
+      </section>
+
+      <section class="board-area">
+        <div class="board-pills">
+          <div class="pill">阶段 <strong id="street-label">等待开始</strong></div>
+          <div class="pill">底池 <strong id="pot-value">0</strong></div>
+          <div class="pill">最高注 <strong id="current-bet">0</strong></div>
+        </div>
+        <div class="cards board-cards" id="community-cards"></div>
+      </section>
+    </section>
+
+    <section class="control-panel">
+      <div class="status-panel">
+        <p id="message">点击“开始下一手”开始 6 人桌牌局。</p>
+        <div class="betting-info">
+          <span>轮到 <strong id="turn-label">-</strong></span>
+          <span>你需跟注 <strong id="to-call-value">0</strong></span>
+          <span>你的本街下注 <strong id="player-commitment">0</strong></span>
+        </div>
+      </div>
+
+      <div class="action-panel">
+        <div class="table-options">
+          <label class="option-field" for="player-count-select">
+            <span>桌上人数</span>
+            <select id="player-count-select">
+              <option value="2">2 人</option>
+              <option value="3">3 人</option>
+              <option value="4">4 人</option>
+              <option value="5">5 人</option>
+              <option value="6" selected>6 人</option>
+            </select>
+          </label>
+          <label class="option-toggle" for="auto-next-checkbox">
+            <input id="auto-next-checkbox" type="checkbox">
+            <span>自动开始下一手</span>
+          </label>
+          <label class="option-toggle" for="sound-toggle-checkbox">
+            <input id="sound-toggle-checkbox" type="checkbox" checked>
+            <span>音效</span>
+          </label>
+          <button id="reset-table-btn" class="secondary-btn" type="button">重开整桌</button>
+        </div>
+
+        <div class="raise-box">
+          <label for="raise-input">目标注额</label>
+          <input id="raise-input" type="range" min="40" max="200" step="20" value="40">
+          <div class="raise-readout">
+            <span>本街目标下注</span>
+            <strong id="raise-value">40</strong>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="fold-btn" class="danger-btn">弃牌</button>
+          <button id="check-call-btn" class="primary-btn">过牌</button>
+          <button id="raise-btn" class="accent-btn">下注</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="log-panel">
+      <div class="log-header">
+        <h2>牌局日志</h2>
+        <span>最近 12 条动作</span>
+      </div>
+      <div id="log-list" class="log-list"></div>
+    </section>
+  </main>
+
+  <script src="script.js?v=20260313b"></script>
+</body>
+</html>
