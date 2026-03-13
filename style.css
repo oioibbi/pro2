@@ -46,6 +46,10 @@ body {
   display: none;
 }
 
+.mobile-view-tools {
+  display: none;
+}
+
 .table-stage-wrap {
   width: 100%;
 }
@@ -691,6 +695,15 @@ button:disabled {
 }
 
 @media (max-width: 1080px) {
+  .mobile-view-tools {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .mobile-view-tools button {
+    min-width: 112px;
+  }
+
   .app-shell {
     width: min(100vw - 12px, 100%);
     margin: 12px auto;
@@ -785,6 +798,10 @@ button:disabled {
 
   .mobile-rotate-hint {
     display: none;
+  }
+
+  .mobile-view-tools {
+    justify-content: flex-end;
   }
 
   .table-stage-wrap {
@@ -882,6 +899,104 @@ button:disabled {
   .actions {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1080px) {
+  body.mobile-landscape-mode {
+    overflow: hidden;
+  }
+
+  body.mobile-landscape-mode .app-shell {
+    width: 100vw;
+    min-height: var(--viewport-height, 100vh);
+    margin: 0;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  body.mobile-landscape-mode .topbar,
+  body.mobile-landscape-mode .log-panel,
+  body.mobile-landscape-mode .mobile-rotate-hint {
+    display: none;
+  }
+
+  body.mobile-landscape-mode .mobile-view-tools {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    justify-content: space-between;
+    padding: 2px 0;
+  }
+
+  body.mobile-landscape-mode .mobile-view-tools::before {
+    content: "手机横屏模式";
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.82rem;
+    color: rgba(245, 239, 223, 0.78);
+    letter-spacing: 0.04em;
+  }
+
+  body.mobile-landscape-mode .table-stage-wrap {
+    --table-base-width: 1240px;
+    --table-base-height: 840px;
+    --focus-chrome-height: 152px;
+    --table-scale: min(
+      1,
+      calc((var(--viewport-width, 100vw) - 16px) / var(--table-base-width)),
+      calc((var(--viewport-height, 100vh) - var(--focus-chrome-height)) / var(--table-base-height))
+    );
+    height: calc(var(--table-base-height) * var(--table-scale));
+    max-height: calc(var(--viewport-height, 100vh) - var(--focus-chrome-height));
+    margin-inline: auto;
+  }
+
+  body.mobile-landscape-mode .control-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.9fr);
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 18px;
+  }
+
+  body.mobile-landscape-mode .status-panel,
+  body.mobile-landscape-mode .action-panel {
+    min-width: 0;
+  }
+
+  body.mobile-landscape-mode .table-options,
+  body.mobile-landscape-mode .betting-info,
+  body.mobile-landscape-mode .actions {
+    gap: 8px;
+  }
+
+  body.mobile-landscape-mode .table-metrics span,
+  body.mobile-landscape-mode .betting-info span,
+  body.mobile-landscape-mode .option-field,
+  body.mobile-landscape-mode .option-toggle,
+  body.mobile-landscape-mode .pill {
+    padding: 7px 9px;
+    font-size: 0.84rem;
+  }
+
+  body.mobile-landscape-mode button {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  body.mobile-landscape-mode #message {
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 1080px) and (orientation: portrait) {
+  body.mobile-landscape-mode .table-stage-wrap {
+    --focus-chrome-height: 190px;
+  }
+
+  body.mobile-landscape-mode .control-panel {
+    grid-template-columns: 1fr;
   }
 }
 

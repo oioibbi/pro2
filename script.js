@@ -40,6 +40,7 @@ const els = {
   blindInfo: document.getElementById("blind-info"),
   aliveCount: document.getElementById("alive-count"),
   handCount: document.getElementById("hand-count"),
+  mobileLandscapeBtn: document.getElementById("mobile-landscape-btn"),
   foldBtn: document.getElementById("fold-btn"),
   checkCallBtn: document.getElementById("check-call-btn"),
   raiseBtn: document.getElementById("raise-btn"),
@@ -81,6 +82,7 @@ const state = {
   revealingHoleSlots: {},
   boardEnteringSlots: [],
   holeEnteringSlots: {},
+  mobileLandscapeMode: false,
 };
 
 function createPlayers() {
@@ -1362,6 +1364,25 @@ function syncSoundPreference(enabled) {
   }
 }
 
+function updateViewportMetrics() {
+  document.documentElement.style.setProperty("--viewport-height", `${window.innerHeight}px`);
+  document.documentElement.style.setProperty("--viewport-width", `${window.innerWidth}px`);
+  if (window.innerWidth > 1080 && state.mobileLandscapeMode) {
+    state.mobileLandscapeMode = false;
+    document.body.classList.remove("mobile-landscape-mode");
+  }
+  if (els.mobileLandscapeBtn) {
+    els.mobileLandscapeBtn.textContent = state.mobileLandscapeMode ? "退出横屏" : "横屏模式";
+    els.mobileLandscapeBtn.setAttribute("aria-pressed", state.mobileLandscapeMode ? "true" : "false");
+  }
+}
+
+function setMobileLandscapeMode(enabled) {
+  state.mobileLandscapeMode = enabled;
+  document.body.classList.toggle("mobile-landscape-mode", enabled);
+  updateViewportMetrics();
+}
+
 els.raiseInput.addEventListener("input", () => {
   els.raiseValue.textContent = els.raiseInput.value;
   ensureAudioContext();
@@ -1408,6 +1429,15 @@ els.resetTableBtn.addEventListener("click", () => {
   resetTable();
 });
 
+if (els.mobileLandscapeBtn) {
+  els.mobileLandscapeBtn.addEventListener("click", () => {
+    setMobileLandscapeMode(!state.mobileLandscapeMode);
+  });
+}
+
+window.addEventListener("resize", updateViewportMetrics);
+
 applyActiveSeats(6);
 syncSoundPreference(true);
+updateViewportMetrics();
 resetTable();
