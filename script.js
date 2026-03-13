@@ -24,6 +24,11 @@ const BLIND_LEVELS = [
 ];
 
 const els = {
+  appShell: document.querySelector(".app-shell"),
+  tableStageWrap: document.querySelector(".table-stage-wrap"),
+  controlPanel: document.querySelector(".control-panel"),
+  logPanel: document.querySelector(".log-panel"),
+  mobileViewTools: document.querySelector(".mobile-view-tools"),
   tableStage: document.querySelector(".table-stage"),
   tableAnimLayer: document.getElementById("table-anim-layer"),
   chipAnimLayer: document.getElementById("chip-anim-layer"),
@@ -1372,15 +1377,33 @@ function updateViewportMetrics() {
     document.body.classList.remove("mobile-landscape-mode");
   }
   if (els.mobileLandscapeBtn) {
-    els.mobileLandscapeBtn.textContent = state.mobileLandscapeMode ? "退出横屏" : "横屏模式";
+    els.mobileLandscapeBtn.textContent = state.mobileLandscapeMode ? "Exit View" : "Landscape";
     els.mobileLandscapeBtn.setAttribute("aria-pressed", state.mobileLandscapeMode ? "true" : "false");
   }
+  updateMobileLandscapeLayout();
+}
+
+function updateMobileLandscapeLayout() {
+  if (!state.mobileLandscapeMode || !els.tableStageWrap) {
+    document.documentElement.style.removeProperty("--mobile-landscape-scale");
+    return;
+  }
+
+  const baseWidth = 1240;
+  const baseHeight = 840;
+  const wrapWidth = Math.max(320, els.tableStageWrap.clientWidth || window.innerWidth - 16);
+  const wrapHeight = Math.max(220, els.tableStageWrap.clientHeight || window.innerHeight * 0.58);
+  const scale = Math.min(1, wrapWidth / baseWidth, wrapHeight / baseHeight);
+  document.documentElement.style.setProperty("--mobile-landscape-scale", String(scale));
 }
 
 function setMobileLandscapeMode(enabled) {
   state.mobileLandscapeMode = enabled;
   document.body.classList.toggle("mobile-landscape-mode", enabled);
-  updateViewportMetrics();
+  window.requestAnimationFrame(() => {
+    updateViewportMetrics();
+    window.requestAnimationFrame(updateMobileLandscapeLayout);
+  });
 }
 
 els.raiseInput.addEventListener("input", () => {
@@ -1436,6 +1459,9 @@ if (els.mobileLandscapeBtn) {
 }
 
 window.addEventListener("resize", updateViewportMetrics);
+window.addEventListener("orientationchange", () => {
+  window.setTimeout(updateViewportMetrics, 120);
+});
 
 applyActiveSeats(6);
 syncSoundPreference(true);

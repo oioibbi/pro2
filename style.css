@@ -909,10 +909,14 @@ button:disabled {
 
   body.mobile-landscape-mode .app-shell {
     width: 100vw;
+    height: var(--viewport-height, 100vh);
     min-height: var(--viewport-height, 100vh);
     margin: 0;
     padding: 8px;
     gap: 8px;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    overflow: hidden;
   }
 
   body.mobile-landscape-mode .topbar,
@@ -922,9 +926,8 @@ button:disabled {
   }
 
   body.mobile-landscape-mode .mobile-view-tools {
-    position: sticky;
-    top: 0;
-    z-index: 20;
+    position: relative;
+    z-index: 5;
     justify-content: space-between;
     padding: 2px 0;
   }
@@ -941,23 +944,33 @@ button:disabled {
   body.mobile-landscape-mode .table-stage-wrap {
     --table-base-width: 1240px;
     --table-base-height: 840px;
-    --focus-chrome-height: 152px;
-    --table-scale: min(
-      1,
-      calc((var(--viewport-width, 100vw) - 16px) / var(--table-base-width)),
-      calc((var(--viewport-height, 100vh) - var(--focus-chrome-height)) / var(--table-base-height))
-    );
-    height: calc(var(--table-base-height) * var(--table-scale));
-    max-height: calc(var(--viewport-height, 100vh) - var(--focus-chrome-height));
-    margin-inline: auto;
+    --table-scale: var(--mobile-landscape-scale, 0.78);
+    min-height: 0;
+    height: auto;
+    max-height: none;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  body.mobile-landscape-mode .table-stage {
+    width: var(--table-base-width);
+    min-height: var(--table-base-height);
+    margin: 0;
+    transform: scale(var(--table-scale)) translateZ(0);
+    transform-origin: center center;
   }
 
   body.mobile-landscape-mode .control-panel {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.9fr);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
     gap: 10px;
-    padding: 10px 12px;
+    padding: 8px 10px;
     border-radius: 18px;
+    align-items: start;
+    overflow: hidden;
   }
 
   body.mobile-landscape-mode .status-panel,
@@ -969,6 +982,12 @@ button:disabled {
   body.mobile-landscape-mode .betting-info,
   body.mobile-landscape-mode .actions {
     gap: 8px;
+  }
+
+  body.mobile-landscape-mode .table-options {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
   }
 
   body.mobile-landscape-mode .table-metrics span,
@@ -987,14 +1006,20 @@ button:disabled {
 
   body.mobile-landscape-mode #message {
     font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  body.mobile-landscape-mode .raise-box {
+    gap: 6px;
+  }
+
+  body.mobile-landscape-mode .actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 1080px) and (orientation: portrait) {
-  body.mobile-landscape-mode .table-stage-wrap {
-    --focus-chrome-height: 190px;
-  }
-
   body.mobile-landscape-mode .control-panel {
     grid-template-columns: 1fr;
   }
