@@ -42,6 +42,10 @@ body {
   gap: 18px;
 }
 
+.table-stage-wrap {
+  width: 100%;
+}
+
 .topbar,
 .control-panel,
 .log-panel {
@@ -683,40 +687,6 @@ button:disabled {
 }
 
 @media (max-width: 1080px) {
-  .table-stage {
-    min-height: auto;
-    padding: 20px;
-  }
-
-  .seat-grid {
-    position: static;
-    display: grid;
-    gap: 14px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-bottom: 22px;
-  }
-
-  .table-anim-layer {
-    display: none;
-  }
-
-  .seat {
-    position: static;
-    width: auto;
-  }
-
-  .seat-player {
-    grid-column: 1 / -1;
-  }
-
-  .board-area {
-    position: static;
-    inset: auto;
-    margin-top: 12px;
-  }
-}
-
-@media (max-width: 720px) {
   .app-shell {
     width: min(100vw - 12px, 100%);
     margin: 12px auto;
@@ -729,22 +699,108 @@ button:disabled {
     align-items: stretch;
   }
 
-  .seat-grid {
-    grid-template-columns: 1fr;
+  .topbar-actions,
+  .table-metrics,
+  .betting-info,
+  .table-options,
+  .actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .table-stage-wrap {
+    --table-base-width: 1240px;
+    --table-base-height: 840px;
+    --table-scale: min(1, calc((100vw - 12px) / var(--table-base-width)));
+    position: relative;
+    height: calc(var(--table-base-height) * var(--table-scale));
+    overflow: hidden;
+    border-radius: 28px;
+  }
+
+  .table-stage {
+    width: var(--table-base-width);
+    min-height: var(--table-base-height);
+    transform: scale(var(--table-scale));
+    transform-origin: top left;
+  }
+}
+
+@media (max-width: 1080px) and (orientation: landscape) {
+  .topbar,
+  .control-panel,
+  .log-panel {
+    padding: 14px 16px;
+  }
+
+  .table-stage-wrap {
+    --table-scale: min(1, calc((100vw - 12px) / var(--table-base-width)));
+  }
+}
+
+@media (max-width: 1080px) and (orientation: portrait) {
+  body {
+    overflow-x: auto;
+  }
+
+  .app-shell {
+    min-width: 0;
+  }
+
+  .table-stage-wrap {
+    --table-scale: min(0.8, calc((100vw - 12px) / var(--table-base-width)));
+    min-width: calc(var(--table-base-width) * var(--table-scale));
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .table-stage {
+    margin: 0;
+  }
+
+  .topbar-actions,
+  .table-metrics,
+  .betting-info,
+  .table-options {
+    gap: 10px;
+  }
+
+  .option-field,
+  .option-toggle,
+  .table-metrics span,
+  .betting-info span,
+  .pill {
+    padding: 8px 10px;
+    font-size: 0.92rem;
+  }
+
+  button {
+    padding: 11px 16px;
   }
 
   .actions {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
 
-  .card {
-    width: 64px;
-    height: 92px;
+@media (max-width: 720px) {
+  h1 {
+    font-size: 2rem;
   }
 
-  .mini-cards .card {
-    width: 44px;
-    height: 62px;
+  .eyebrow {
+    font-size: 0.68rem;
+  }
+
+  .table-stage-wrap {
+    --table-scale: min(0.72, calc((100vw - 12px) / 1240px));
+  }
+
+  .log-header {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
