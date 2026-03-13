@@ -50,6 +50,10 @@ body {
   display: none;
 }
 
+.mobile-next-btn {
+  display: none;
+}
+
 .table-stage-wrap {
   width: 100%;
 }
@@ -904,6 +908,7 @@ button:disabled {
 
 @media (max-width: 1080px) {
   body.mobile-landscape-mode {
+    --mobile-side-dock: 182px;
     overflow: hidden;
   }
 
@@ -943,8 +948,8 @@ button:disabled {
     --table-scale: var(--mobile-landscape-scale, 0.68);
     position: fixed;
     top: 8px;
-    left: 8px;
-    right: 8px;
+    left: calc(var(--mobile-side-dock) + 12px);
+    right: 0;
     bottom: 8px;
     min-height: 220px;
     margin: 0;
@@ -965,15 +970,15 @@ button:disabled {
 
   body.mobile-landscape-mode .control-panel {
     position: fixed;
-    left: 50%;
-    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 8px;
+    top: 50%;
     z-index: 25;
-    width: min(440px, calc(100vw - 24px));
+    width: var(--mobile-side-dock);
     padding: 0;
     border: 0;
     background: transparent;
     box-shadow: none;
-    transform: translateX(-50%);
+    transform: translateY(-50%);
     display: block;
   }
 
@@ -985,9 +990,9 @@ button:disabled {
   body.mobile-landscape-mode .action-panel {
     min-width: 0;
     display: grid;
-    gap: 8px;
-    padding: 10px 12px;
-    border-radius: 20px;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 18px;
     background: rgba(4, 16, 12, 0.82);
     border: 1px solid rgba(240, 206, 129, 0.14);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
@@ -1000,7 +1005,7 @@ button:disabled {
   }
 
   body.mobile-landscape-mode .raise-box {
-    gap: 6px;
+    gap: 4px;
   }
 
   body.mobile-landscape-mode .log-panel {
@@ -1032,7 +1037,7 @@ button:disabled {
 
   body.mobile-landscape-mode .actions {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
   body.mobile-landscape-mode .mobile-view-tools button {
@@ -1041,12 +1046,24 @@ button:disabled {
     padding: 7px 12px;
     font-size: 0.8rem;
   }
+
+  .mobile-next-btn {
+    display: none;
+  }
+
+  body.mobile-landscape-mode .mobile-next-btn {
+    display: block;
+    width: 100%;
+  }
 }
 
 @media (max-width: 1080px) and (orientation: portrait) {
   body.mobile-landscape-mode .control-panel {
-    grid-template-columns: 1fr;
-    max-height: min(42vh, 280px);
+    width: min(320px, calc(100vw - 16px));
+    left: 50%;
+    top: auto;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
   }
 }
 

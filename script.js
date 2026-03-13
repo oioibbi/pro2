@@ -49,6 +49,7 @@ const els = {
   foldBtn: document.getElementById("fold-btn"),
   checkCallBtn: document.getElementById("check-call-btn"),
   raiseBtn: document.getElementById("raise-btn"),
+  mobileNewHandBtn: document.getElementById("mobile-new-hand-btn"),
   raiseInput: document.getElementById("raise-input"),
   raiseValue: document.getElementById("raise-value"),
   newHandBtn: document.getElementById("new-hand-btn"),
@@ -588,6 +589,9 @@ function updateControls() {
   els.checkCallBtn.disabled = !state.awaitingHuman || state.introAnimating;
   els.raiseInput.disabled = !canRaise;
   els.raiseBtn.disabled = !canRaise;
+  if (els.mobileNewHandBtn) {
+    els.mobileNewHandBtn.disabled = state.handActive || state.introAnimating;
+  }
 }
 
 function updateUI() {
@@ -1488,6 +1492,12 @@ els.newHandBtn.addEventListener("click", () => {
   ensureAudioContext();
   startHand();
 });
+if (els.mobileNewHandBtn) {
+  els.mobileNewHandBtn.addEventListener("click", () => {
+    ensureAudioContext();
+    startHand();
+  });
+}
 
 els.playerCountSelect.addEventListener("change", (event) => {
   const nextCount = Number(event.target.value);
