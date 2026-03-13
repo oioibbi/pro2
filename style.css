@@ -908,8 +908,8 @@ button:disabled {
 
 @media (max-width: 1080px) {
   body.mobile-landscape-mode {
-    --mobile-side-dock: 124px;
-    --mobile-landscape-stage-scale: 0.76;
+    --mobile-side-dock: 110px;
+    --mobile-landscape-stage-scale: 0.84;
     overflow: hidden;
   }
 
@@ -944,8 +944,8 @@ button:disabled {
   }
 
   body.mobile-landscape-mode .table-stage-wrap {
-    --table-base-width: 1240px;
-    --table-base-height: 840px;
+    --table-base-width: 1180px;
+    --table-base-height: 760px;
     --table-scale: var(--mobile-landscape-scale, var(--mobile-landscape-stage-scale));
     position: fixed;
     top: 8px;
@@ -962,11 +962,17 @@ button:disabled {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 1320px;
-    min-height: 820px;
+    width: 1180px;
+    min-height: 760px;
     margin: 0;
     transform: translate(-50%, -50%) scale(var(--table-scale)) translateZ(0);
     transform-origin: center center;
+  }
+
+  body.mobile-landscape-mode .table-anim-layer,
+  body.mobile-landscape-mode .chip-anim-layer,
+  body.mobile-landscape-mode .deck-stack {
+    display: none;
   }
 
   body.mobile-landscape-mode .control-panel {
@@ -989,128 +995,128 @@ button:disabled {
   }
 
   body.mobile-landscape-mode .seat {
-    width: 190px;
-    min-height: 116px;
-    padding: 10px;
-    border-radius: 18px;
+    width: 168px;
+    min-height: 100px;
+    padding: 8px;
+    border-radius: 16px;
   }
 
   body.mobile-landscape-mode .seat-player {
-    width: 268px;
-    min-height: 132px;
+    width: 236px;
+    min-height: 116px;
   }
 
   body.mobile-landscape-mode .seat-head {
-    gap: 2px;
-    margin-bottom: 6px;
+    gap: 1px;
+    margin-bottom: 4px;
   }
 
   body.mobile-landscape-mode .seat h2 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   body.mobile-landscape-mode .seat p {
-    font-size: 0.72rem;
-  }
-
-  body.mobile-landscape-mode .seat-status {
-    min-height: 18px;
-    margin-top: 5px;
-    padding: 4px 8px;
-    font-size: 0.68rem;
-  }
-
-  body.mobile-landscape-mode .seat-tag {
-    padding: 3px 7px;
     font-size: 0.62rem;
   }
 
+  body.mobile-landscape-mode .seat-status {
+    min-height: 16px;
+    margin-top: 4px;
+    padding: 3px 7px;
+    font-size: 0.58rem;
+  }
+
+  body.mobile-landscape-mode .seat-tag {
+    padding: 2px 6px;
+    font-size: 0.52rem;
+  }
+
   body.mobile-landscape-mode .seat-0 {
-    top: 18px;
-    left: calc(50% - 95px);
+    top: 12px;
+    left: calc(50% - 84px);
   }
 
   body.mobile-landscape-mode .seat-1 {
-    top: 100px;
-    right: 14px;
+    top: 72px;
+    right: 6px;
   }
 
   body.mobile-landscape-mode .seat-2 {
-    bottom: 188px;
-    right: 26px;
+    bottom: 170px;
+    right: 18px;
   }
 
   body.mobile-landscape-mode .seat-3 {
-    bottom: 188px;
-    left: 26px;
+    bottom: 170px;
+    left: 18px;
   }
 
   body.mobile-landscape-mode .seat-4 {
-    top: 100px;
-    left: 14px;
+    top: 72px;
+    left: 6px;
   }
 
   body.mobile-landscape-mode .seat-5 {
-    bottom: 18px;
-    left: calc(50% - 134px);
+    bottom: 10px;
+    left: calc(50% - 118px);
   }
 
   body.mobile-landscape-mode .board-area {
-    inset: 205px 170px 190px;
-    gap: 12px;
-  }
-
-  body.mobile-landscape-mode .board-pills {
-    gap: 6px;
-  }
-
-  body.mobile-landscape-mode .board-cards {
-    min-height: 132px;
+    inset: 168px 148px 156px;
     gap: 8px;
   }
 
+  body.mobile-landscape-mode .board-pills {
+    gap: 4px;
+  }
+
+  body.mobile-landscape-mode .board-cards {
+    min-height: 138px;
+    gap: 6px;
+  }
+
   body.mobile-landscape-mode .player-cards {
-    min-height: 128px;
+    min-height: 124px;
   }
 
   body.mobile-landscape-mode .mini-cards {
-    min-height: 78px;
+    min-height: 84px;
   }
 
   body.mobile-landscape-mode .card {
-    width: 86px;
-    height: 122px;
+    width: 92px;
+    height: 132px;
     padding: 9px;
   }
 
   body.mobile-landscape-mode .mini-cards .card {
-    width: 54px;
-    height: 78px;
+    width: 60px;
+    height: 86px;
     padding: 6px;
   }
 
   body.mobile-landscape-mode .card-rank {
-    font-size: 1.34rem;
+    font-size: 1.46rem;
   }
 
   body.mobile-landscape-mode .card-center {
-    font-size: 1.95rem;
+    font-size: 2.05rem;
   }
 
   body.mobile-landscape-mode .card-suit {
-    font-size: 1.02rem;
+    font-size: 1.08rem;
   }
 
   body.mobile-landscape-mode .mini-cards .card-rank {
-    font-size: 1.02rem;
+    font-size: 1.1rem;
   }
 
   body.mobile-landscape-mode .mini-cards .card-center {
-    font-size: 1.22rem;
+    font-size: 1.34rem;
   }
 
   body.mobile-landscape-mode .mini-cards .card-suit {
-    font-size: 0.82rem;
+    font-size: 0.88rem;
   }
 
   body.mobile-landscape-mode .action-panel {

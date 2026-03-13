@@ -1459,8 +1459,8 @@ function updateMobileLandscapeLayout() {
     return;
   }
 
-  const baseWidth = 1240;
-  const baseHeight = 840;
+  const baseWidth = 1180;
+  const baseHeight = 760;
   const shellStyle = window.getComputedStyle(els.appShell);
   const shellPaddingY = (parseFloat(shellStyle.paddingTop) || 0) + (parseFloat(shellStyle.paddingBottom) || 0);
   const toolsHeight = els.mobileViewTools?.offsetHeight || 0;
