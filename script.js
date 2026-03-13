@@ -1382,6 +1382,33 @@ function shouldUseMobileLandscapeMode() {
   return isMobileScreen() && isLandscapeViewport() && !state.mobileLandscapeDismissed;
 }
 
+function isFullscreenActive() {
+  return Boolean(document.fullscreenElement);
+}
+
+async function enterFullscreenMode() {
+  const target = document.documentElement;
+  if (!target?.requestFullscreen || isFullscreenActive()) return;
+  try {
+    await target.requestFullscreen({ navigationUI: "hide" });
+  } catch {
+    try {
+      await target.requestFullscreen();
+    } catch {
+      // Ignore unsupported fullscreen requests on mobile browsers.
+    }
+  }
+}
+
+async function exitFullscreenMode() {
+  if (!document.exitFullscreen || !isFullscreenActive()) return;
+  try {
+    await document.exitFullscreen();
+  } catch {
+    // Ignore fullscreen exit failures.
+  }
+}
+
 function updateViewportMetrics() {
   document.documentElement.style.setProperty("--viewport-height", `${window.innerHeight}px`);
   document.documentElement.style.setProperty("--viewport-width", `${window.innerWidth}px`);
@@ -1393,11 +1420,11 @@ function updateViewportMetrics() {
   document.body.classList.toggle("mobile-landscape-mode", state.mobileLandscapeMode);
   if (els.mobileLandscapeBtn) {
     if (!isMobileScreen()) {
-      els.mobileLandscapeBtn.textContent = "Landscape";
+      els.mobileLandscapeBtn.textContent = "Full View";
     } else if (!isLandscapeViewport()) {
       els.mobileLandscapeBtn.textContent = "Rotate";
     } else {
-      els.mobileLandscapeBtn.textContent = state.mobileLandscapeMode ? "Exit View" : "Landscape";
+      els.mobileLandscapeBtn.textContent = state.mobileLandscapeMode ? "Exit View" : "Full View";
     }
     els.mobileLandscapeBtn.setAttribute("aria-pressed", state.mobileLandscapeMode ? "true" : "false");
   }
@@ -1421,13 +1448,18 @@ function updateMobileLandscapeLayout() {
   document.documentElement.style.setProperty("--mobile-landscape-scale", String(scale));
 }
 
-function setMobileLandscapeMode(enabled) {
+async function setMobileLandscapeMode(enabled) {
   if (!isMobileScreen()) {
     state.mobileLandscapeDismissed = false;
   } else if (!isLandscapeViewport()) {
     state.mobileLandscapeDismissed = false;
   } else {
     state.mobileLandscapeDismissed = !enabled;
+  }
+  if (enabled && isMobileScreen() && isLandscapeViewport()) {
+    await enterFullscreenMode();
+  } else if (!enabled) {
+    await exitFullscreenMode();
   }
   window.requestAnimationFrame(() => {
     updateViewportMetrics();
@@ -1482,8 +1514,8 @@ els.resetTableBtn.addEventListener("click", () => {
 });
 
 if (els.mobileLandscapeBtn) {
-  els.mobileLandscapeBtn.addEventListener("click", () => {
-    setMobileLandscapeMode(!state.mobileLandscapeMode);
+  els.mobileLandscapeBtn.addEventListener("click", async () => {
+    await setMobileLandscapeMode(!state.mobileLandscapeMode);
   });
 }
 
@@ -1491,6 +1523,7 @@ window.addEventListener("resize", updateViewportMetrics);
 window.addEventListener("orientationchange", () => {
   window.setTimeout(updateViewportMetrics, 120);
 });
+document.addEventListener("fullscreenchange", updateViewportMetrics);
 
 applyActiveSeats(6);
 syncSoundPreference(true);

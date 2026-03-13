@@ -429,7 +429,7 @@ h2 {
 
 .cards {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -586,7 +586,7 @@ h2 {
 .option-field select {
   border: 0;
   border-radius: 10px;
-  padding: 8px 10px;
+  padding: 6px 8px;
   background: rgba(255, 255, 255, 0.92);
   color: #14261d;
   font: inherit;
@@ -927,20 +927,14 @@ button:disabled {
   body.mobile-landscape-mode .mobile-view-tools {
     position: fixed;
     top: max(8px, env(safe-area-inset-top));
-    left: 8px;
     right: 8px;
     z-index: 30;
-    justify-content: space-between;
+    width: auto;
+    justify-content: flex-end;
     padding: 0;
   }
-
   body.mobile-landscape-mode .mobile-view-tools::before {
-    content: "手机横屏模式";
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.82rem;
-    color: rgba(245, 239, 223, 0.78);
-    letter-spacing: 0.04em;
+    content: none;
   }
 
   body.mobile-landscape-mode .table-stage-wrap {
@@ -948,10 +942,10 @@ button:disabled {
     --table-base-height: 840px;
     --table-scale: var(--mobile-landscape-scale, 0.68);
     position: fixed;
-    top: calc(max(8px, env(safe-area-inset-top)) + 56px);
+    top: 8px;
     left: 8px;
     right: 8px;
-    bottom: calc(max(8px, env(safe-area-inset-bottom)) + 132px);
+    bottom: 8px;
     min-height: 220px;
     margin: 0;
     display: block;
@@ -971,41 +965,42 @@ button:disabled {
 
   body.mobile-landscape-mode .control-panel {
     position: fixed;
-    left: 8px;
-    right: 8px;
-    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 50%;
+    bottom: max(12px, env(safe-area-inset-bottom));
     z-index: 25;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
-    gap: 10px;
-    padding: 8px 10px;
-    border-radius: 18px;
-    align-items: start;
-    overflow: auto;
-    max-height: 124px;
-    backdrop-filter: blur(10px);
-    background: rgba(4, 16, 12, 0.86);
+    width: min(440px, calc(100vw - 24px));
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: translateX(-50%);
+    display: block;
   }
 
   body.mobile-landscape-mode .status-panel,
+  body.mobile-landscape-mode .table-options {
+    display: none;
+  }
+
   body.mobile-landscape-mode .action-panel {
     min-width: 0;
+    display: grid;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 20px;
+    background: rgba(4, 16, 12, 0.82);
+    border: 1px solid rgba(240, 206, 129, 0.14);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
   }
 
-  body.mobile-landscape-mode .table-options,
   body.mobile-landscape-mode .betting-info,
   body.mobile-landscape-mode .actions {
-    gap: 8px;
+    gap: 5px;
   }
 
-  body.mobile-landscape-mode .table-options {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 2px;
-  }
-
-  body.mobile-landscape-mode .status-panel {
-    gap: 8px;
+  body.mobile-landscape-mode .raise-box {
+    gap: 6px;
   }
 
   body.mobile-landscape-mode .log-panel {
@@ -1017,27 +1012,34 @@ button:disabled {
   body.mobile-landscape-mode .option-field,
   body.mobile-landscape-mode .option-toggle,
   body.mobile-landscape-mode .pill {
-    padding: 7px 9px;
-    font-size: 0.84rem;
+    padding: 5px 7px;
+    font-size: 0.76rem;
   }
 
   body.mobile-landscape-mode button {
-    padding: 8px 12px;
-    font-size: 0.88rem;
+    padding: 6px 10px;
+    font-size: 0.78rem;
   }
 
   body.mobile-landscape-mode #message {
-    font-size: 0.92rem;
-    line-height: 1.35;
+    font-size: 0.78rem;
+    line-height: 1.2;
   }
 
   body.mobile-landscape-mode .raise-box {
-    gap: 4px;
+    gap: 6px;
   }
 
   body.mobile-landscape-mode .actions {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body.mobile-landscape-mode .mobile-view-tools button {
+    min-width: 96px;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 0.8rem;
   }
 }
 
