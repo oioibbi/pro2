@@ -42,6 +42,10 @@ body {
   gap: 18px;
 }
 
+.mobile-rotate-hint {
+  display: none;
+}
+
 .table-stage-wrap {
   width: 100%;
 }
@@ -690,6 +694,7 @@ button:disabled {
   .app-shell {
     width: min(100vw - 12px, 100%);
     margin: 12px auto;
+    gap: 12px;
   }
 
   .topbar,
@@ -727,14 +732,96 @@ button:disabled {
 }
 
 @media (max-width: 1080px) and (orientation: landscape) {
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .app-shell {
+    width: calc(100vw - 10px);
+    margin: 5px auto 10px;
+    gap: 8px;
+  }
+
   .topbar,
   .control-panel,
   .log-panel {
-    padding: 14px 16px;
+    padding: 10px 12px;
+    border-radius: 18px;
+  }
+
+  .topbar {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .topbar-actions,
+  .table-metrics {
+    width: auto;
+    flex-wrap: nowrap;
+  }
+
+  .eyebrow {
+    font-size: 0.62rem;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  .table-metrics span,
+  .betting-info span,
+  .pill,
+  .option-field,
+  .option-toggle {
+    padding: 7px 10px;
+    font-size: 0.86rem;
+  }
+
+  button {
+    padding: 10px 14px;
+    font-size: 0.94rem;
+  }
+
+  .mobile-rotate-hint {
+    display: none;
   }
 
   .table-stage-wrap {
-    --table-scale: min(1, calc((100vw - 12px) / var(--table-base-width)));
+    --chrome-height: 210px;
+    --table-scale: min(
+      1,
+      calc((100vw - 10px) / var(--table-base-width)),
+      calc((100vh - var(--chrome-height)) / var(--table-base-height))
+    );
+    margin-inline: auto;
+  }
+
+  .control-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.95fr);
+    align-items: start;
+    gap: 12px;
+  }
+
+  .status-panel,
+  .action-panel {
+    min-width: 0;
+  }
+
+  .log-panel {
+    padding-top: 8px;
+    padding-bottom: 10px;
+  }
+
+  .log-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .log-item {
+    padding: 8px 10px;
+    font-size: 0.84rem;
   }
 }
 
@@ -745,6 +832,18 @@ button:disabled {
 
   .app-shell {
     min-width: 0;
+  }
+
+  .mobile-rotate-hint {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(240, 206, 129, 0.12);
+    border: 1px solid rgba(240, 206, 129, 0.24);
+    color: var(--cream);
+    font-size: 0.92rem;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.14);
   }
 
   .table-stage-wrap {
@@ -797,6 +896,11 @@ button:disabled {
 
   .table-stage-wrap {
     --table-scale: min(0.72, calc((100vw - 12px) / 1240px));
+  }
+
+  .mobile-rotate-hint {
+    font-size: 0.88rem;
+    line-height: 1.4;
   }
 
   .log-header {
