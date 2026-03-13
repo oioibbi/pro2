@@ -913,9 +913,9 @@ button:disabled {
     min-height: var(--viewport-height, 100vh);
     margin: 0;
     padding: 8px;
-    gap: 8px;
+    gap: 6px;
     display: grid;
-    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
     overflow: hidden;
   }
 
@@ -946,13 +946,14 @@ button:disabled {
     --table-base-height: 840px;
     --table-scale: var(--mobile-landscape-scale, 0.78);
     min-height: 0;
-    height: auto;
+    height: 100%;
     max-height: none;
     margin: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     overflow: hidden;
+    padding-bottom: 126px;
   }
 
   body.mobile-landscape-mode .table-stage {
@@ -964,13 +965,21 @@ button:disabled {
   }
 
   body.mobile-landscape-mode .control-panel {
+    position: fixed;
+    left: 8px;
+    right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    z-index: 25;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
     gap: 10px;
     padding: 8px 10px;
     border-radius: 18px;
     align-items: start;
-    overflow: hidden;
+    overflow: auto;
+    max-height: min(34vh, 190px);
+    backdrop-filter: blur(10px);
+    background: rgba(4, 16, 12, 0.86);
   }
 
   body.mobile-landscape-mode .status-panel,
@@ -990,6 +999,10 @@ button:disabled {
     padding-bottom: 2px;
   }
 
+  body.mobile-landscape-mode .status-panel {
+    gap: 8px;
+  }
+
   body.mobile-landscape-mode .table-metrics span,
   body.mobile-landscape-mode .betting-info span,
   body.mobile-landscape-mode .option-field,
@@ -1000,7 +1013,7 @@ button:disabled {
   }
 
   body.mobile-landscape-mode button {
-    padding: 10px 12px;
+    padding: 9px 12px;
     font-size: 0.9rem;
   }
 
@@ -1022,6 +1035,7 @@ button:disabled {
 @media (max-width: 1080px) and (orientation: portrait) {
   body.mobile-landscape-mode .control-panel {
     grid-template-columns: 1fr;
+    max-height: min(42vh, 280px);
   }
 }
 

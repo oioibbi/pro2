@@ -88,6 +88,7 @@ const state = {
   boardEnteringSlots: [],
   holeEnteringSlots: {},
   mobileLandscapeMode: false,
+  mobileLandscapeDismissed: false,
 };
 
 function createPlayers() {
@@ -1369,15 +1370,35 @@ function syncSoundPreference(enabled) {
   }
 }
 
+function isMobileScreen() {
+  return window.innerWidth <= 1080;
+}
+
+function isLandscapeViewport() {
+  return window.innerWidth > window.innerHeight;
+}
+
+function shouldUseMobileLandscapeMode() {
+  return isMobileScreen() && isLandscapeViewport() && !state.mobileLandscapeDismissed;
+}
+
 function updateViewportMetrics() {
   document.documentElement.style.setProperty("--viewport-height", `${window.innerHeight}px`);
   document.documentElement.style.setProperty("--viewport-width", `${window.innerWidth}px`);
-  if (window.innerWidth > 1080 && state.mobileLandscapeMode) {
+  if (!isMobileScreen()) {
     state.mobileLandscapeMode = false;
-    document.body.classList.remove("mobile-landscape-mode");
+    state.mobileLandscapeDismissed = false;
   }
+  state.mobileLandscapeMode = shouldUseMobileLandscapeMode();
+  document.body.classList.toggle("mobile-landscape-mode", state.mobileLandscapeMode);
   if (els.mobileLandscapeBtn) {
-    els.mobileLandscapeBtn.textContent = state.mobileLandscapeMode ? "Exit View" : "Landscape";
+    if (!isMobileScreen()) {
+      els.mobileLandscapeBtn.textContent = "Landscape";
+    } else if (!isLandscapeViewport()) {
+      els.mobileLandscapeBtn.textContent = "Rotate";
+    } else {
+      els.mobileLandscapeBtn.textContent = state.mobileLandscapeMode ? "Exit View" : "Landscape";
+    }
     els.mobileLandscapeBtn.setAttribute("aria-pressed", state.mobileLandscapeMode ? "true" : "false");
   }
   updateMobileLandscapeLayout();
@@ -1391,15 +1412,23 @@ function updateMobileLandscapeLayout() {
 
   const baseWidth = 1240;
   const baseHeight = 840;
+  const shellStyle = window.getComputedStyle(els.appShell);
+  const shellPaddingY = (parseFloat(shellStyle.paddingTop) || 0) + (parseFloat(shellStyle.paddingBottom) || 0);
+  const toolsHeight = els.mobileViewTools?.offsetHeight || 0;
   const wrapWidth = Math.max(320, els.tableStageWrap.clientWidth || window.innerWidth - 16);
-  const wrapHeight = Math.max(220, els.tableStageWrap.clientHeight || window.innerHeight * 0.58);
+  const wrapHeight = Math.max(240, window.innerHeight - shellPaddingY - toolsHeight - 12);
   const scale = Math.min(1, wrapWidth / baseWidth, wrapHeight / baseHeight);
   document.documentElement.style.setProperty("--mobile-landscape-scale", String(scale));
 }
 
 function setMobileLandscapeMode(enabled) {
-  state.mobileLandscapeMode = enabled;
-  document.body.classList.toggle("mobile-landscape-mode", enabled);
+  if (!isMobileScreen()) {
+    state.mobileLandscapeDismissed = false;
+  } else if (!isLandscapeViewport()) {
+    state.mobileLandscapeDismissed = false;
+  } else {
+    state.mobileLandscapeDismissed = !enabled;
+  }
   window.requestAnimationFrame(() => {
     updateViewportMetrics();
     window.requestAnimationFrame(updateMobileLandscapeLayout);
